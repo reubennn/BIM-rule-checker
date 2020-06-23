@@ -1,0 +1,16 @@
+#2098 = IFCSPACE('35eIolTKvFv93wmdXEkor$', #42, '118', $, $, #2031, #2095, 'RCC', .ELEMENT., .SPACE., $);
+
+extract 7th property -> #2095 ->
+
+#2095 = IFCPRODUCTDEFINITIONSHAPE($, $, (#2093));
+
+extract 3rd property -> #2093 ->
+
+#2093 = IFCSHAPEREPRESENTATION(#117, 'Body', 'SweptSolid', (#2092));
+
+extract 4th property -> #2092 ->
+
+#2092 = IFCEXTRUDEDAREASOLID(#2088, #2091, #22, 4345.32772548839);
+
+Note 4th property -> 4345.32772548839 
+! This is the height !
