@@ -2,14 +2,11 @@ import re # For regexp
 
 file = open("./Sample Mockup Model.ifc","r")
 
-ifcSpaceStr = "IFCSPACE"
-ifcSpaceTypeStr = "IFCSPACETYPE"
+ifcSpaceStr = "IFCSPACE(" # This ensure we don't pick up IFCSPACETYPE
 passed = True
 warning = False
 lines = []
 ifcNums = []
-lineMatch = []
-lineNumber = []
 passedList = []
 warningList = []
 failedList = []
@@ -18,7 +15,6 @@ def getLineIndex(ifcNum):
     for i, item in enumerate(ifcNums, 1):
        if item == ifcNum:
           return i - 1
-
 
 def findWithProperty(line, propertyNum, val):
     # print("Searching for property {} in: {}".format(propertyNum, line))
@@ -40,19 +36,18 @@ for lineNum, data in enumerate(file, 1):
         ifcNums.append(0)
 
     if any(ifcSpaceStr in s for s in line):
-        if not any(ifcSpaceTypeStr in s for s in line): # Makes sure it is only looking in IFCSPACE
-            foundLine = findWithProperty(tempLine, 7, "LINE")
-            foundLine = findWithProperty(foundLine, 3, "LINE")
-            foundLine = findWithProperty(foundLine, 4, "LINE")
-            height = findWithProperty(foundLine, 4, "VAL")
+        foundLine = findWithProperty(tempLine, 7, "LINE")
+        foundLine = findWithProperty(foundLine, 3, "LINE")
+        foundLine = findWithProperty(foundLine, 4, "LINE")
+        height = findWithProperty(foundLine, 4, "VAL")
 
-            if height >= 2000:
-                print("*PASSED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
-                passedList.append("*PASSED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
-            else:
-                print("*FAILED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
-                passed = False
-                failedList.append("*FAILED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
+        if height >= 2000:
+            print("*PASSED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
+            passedList.append("*PASSED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
+        else:
+            print("*FAILED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
+            passed = False
+            failedList.append("*FAILED* [LINE = {}] [IFC #{}] Height = {}".format(lineNum, ifcNums[lineNum - 1], height))
 
 # Print results
 if passed:
