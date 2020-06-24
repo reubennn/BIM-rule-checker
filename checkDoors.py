@@ -25,7 +25,7 @@ for lineNum, data in enumerate(file, 1):
     except ValueError:
         ifcNum = "NONE"
 
-    height = findWithProperty(tempLine, 9)
+    height = findWithProperty(tempLine, 9) # OverallHeight is attribute 9
 
     if height >= 2000:
       print("*PASSED* [LINE = {}] [IFC {}] : Height = {}".format(lineNum, ifcNum, height))
